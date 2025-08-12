@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zimmy Chat Assistant</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe4e1, #ffccd5);
+      padding: 20px;
+    }
+    #chatbox {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(255, 192, 203, 0.5);
+      min-height: 300px;
+      overflow-y: auto;
+    }
+    .message {
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 20px;
+      font-size: 16px;
+      line-height: 1.4;
+      max-width: 80%;
+    }
+    .zimmy {
+      background: #ffe0f0;
+      color: #c2185b;
+      text-align: left;
+    }
+    .user {
+      background: #e0f7fa;
+      color: #00796b;
+      text-align: right;
+      margin-left: auto;
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    button {
+      background-color: #f06292;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ec407a;
+    }
+    #loveSection {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="chatbox">
+    <div class="message zimmy">💬 Zimmy: Hi! What’s your name?</div>
+  </div>
+
+  <input type="text" id="username" placeholder="Type your name 💖" />
+  <button onclick="submitName()">Submit</button>
+
+  <div id="loveSection">
+    <input type="text" id="loveMessage" value="I love you Zimmy" />
+    <button onclick="submitLove()">Send</button>
+  </div>
+
+  <script>
+    const roasts = [
+      "Your smile is the start of my day 🌞",
+      "You’re so empty, even your thoughts have an echo.",
+      "Everything feels beautiful because you’re here 💖",
+      "You’re so cold, the excitement around you freezes.",
+      "Hearing your name automatically makes me smile 😊",
+      "You’re so forgettable even Google shows 'No results found'.",
+      "You’re the highlight of my life ✨",
+      "You’re so boring, even time refuses to stay with you.",
+      "You’re so special, words fall short ❤️",
+      "You’re such a scammer that even your smile has an error code.",
+      "Your presence is a guarantee of calmness 🕊️",
+      "You’re so unaware that life has muted you.",
+      "You’re the best version of my life 💫",
+      "You’re so negative that even darkness avoids you.",
+      "Your voice itself is comfort 🎶",
+      "You’re so irrelevant your existence gets skipped.",
+      "The universe feels perfect because of you 🌌",
+      "You’re so tiring that even sleep wakes up after seeing you.",
+      "Your name is saved as a favorite in my heart 💾",
+      "You’re so fake that even your 'Hello' goes to spam.",
+      "You’re so genuine trust comes naturally 🤝",
+      "You’re so confused even your dreams need GPS.",
+      "There’s poetry in your eyes 📖",
+      "You’re so lifeless even your jokes are met with silence.",
+      "You’re the sweetest chapter of my life 🍬",
+      "You’re so empty your thoughts get '404 Not Found'.",
+      "Your words are a serotonin boost 💭",
+      "You’re so exhausting people log out in your presence.",
+      "You’re so lovable even emojis blush 😊",
+      "You’re so disappointing motivation blocks you.",
+      "Your existence is a blessing in disguise 🎁",
+      "You’re so confused your future is stuck on 'loading...'.",
+      "You’re calm amidst chaos 🌈",
+      "You’re so cold the energy around you becomes a dead zone.",
+      "The vibe becomes perfect just because you’re there 🎧",
+      "You’re such a scammer your words need verification.",
+      "You’re so caring hearts melt 💓",
+      "You’re so irrelevant autocorrect deletes your name.",
+      "Your name is a smile shortcut 😄",
+      "You’re so unwanted people click 'unsubscribe' on your presence.",
+      "You’re like a dream without sleep 🌙",
+      "Your words are a healing touch 💆",
+      "You’re so adorable cuteness overload 🐻",
+      "Your laugh is the ringtone of happiness 📱",
+      "You’re a comfort zone with sparkle ✨",
+      "Your name is the password to peace 🔐",
+      "You’re so sweet even sugar gets jealous 🍭",
+      "Your presence is a mental vacation 🌴",
+      "You’re the perfect playlist 🎼",
+      "The universe is in your eyes 🌠",
+      "You’re so calm anxiety logs out 🧘",
+      "Your words are a heartwarming melody 🎵",
+      "You’re the rainbow after the storm 🌦️",
+      "Your name is my favorite notification 🔔",
+      "You’re so lovable hate blocks you 🚫",
+      "Your presence is instant peace ☁️",
+      "You’re my heart’s happy place 🏡",
+      "Your words are an emotional spa 💖",
+      "You’re so genuine fake people panic 😅",
+      "Your name is a smile generator 😍",
+      "You’re the perfect caption for life 📸",
+      "Your laugh is the background music of joy 🎶",
+      "You’re so sweet dessert quotes you 🍰",
+      "Your presence is a soul recharge 🔋",
+      "You’re my heart’s favorite bookmark 📑",
+      "Your words are an emotional playlist 🎧",
+      "You’re so adorable puppies idolize you 🐶",
+      "Your name is the password to peace 🔓",
+      "You’re a comfort zone with glitter ✨",
+      "Your laugh is the happiness ringtone 🎵",
+      "You’re so lovable sadness uninstalls 💔➡️💖",
+      // ... (Continue translation for all items as needed)
+    ]; 
+
+    let userName = "";
+
+    function appendMessage(text, sender) {
+      const chatbox = document.getElementById("chatbox");
+      const div = document.createElement("div");
+      div.classList.add("message", sender);
+      div.textContent = text;
+      chatbox.appendChild(div);
+      chatbox.scrollTop = chatbox.scrollHeight; // Scroll to bottom
+    }
+
+    function submitName() {
+      userName = document.getElementById("username").value.trim();
+      if (!userName) return;
+      appendMessage(`Zimmy: Nice! Glad to meet you, ${userName} 💕`, "zimmy");
+      document.getElementById("loveSection").style.display = "block";
+      document.getElementById("username").disabled = true;
+    }
+
+    function submitLove() {
+      const message = document.getElementById("loveMessage").value.trim();
+      if (!message) return;
+      appendMessage(`${userName}: ${message}`, "user");
+
+      const randomRoast = roasts[Math.floor(Math.random() * roasts.length)];
+      appendMessage(`Zimmy: ${randomRoast}`, "zimmy");
+    }
+  </script>
+</body>
+</html>

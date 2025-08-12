@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Babbli Chat Assistant</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe4e1, #ffccd5);
+      padding: 20px;
+    }
+
+    #chatbox {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(255, 192, 203, 0.5);
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 20px;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .babbli {
+      background: #ffe0f0;
+      color: #c2185b;
+      text-align: left;
+    }
+
+    .user {
+      background: #e0f7fa;
+      color: #00796b;
+      text-align: right;
+    }
+
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    button {
+      background-color: #f06292;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ec407a;
+    }
+
+    #loveSection {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="chatbox">
+    <div class="message babbli">💬 Babbli: Hello, what's your name?</div>
+    <input type="text" id="username" placeholder="Enter your name 💖" />
+    <button onclick="submitName()">Submit</button>
+
+    <div id="loveSection">
+      <input type="text" id="loveMessage" value="I Love You Babbli" />
+      <button onclick="submitLove()">Send</button>
+    </div>
+  </div>
+
+  <script>
+const roasts = [
+  "You're like a cloud. When you disappear, it's a beautiful day.",
+  "You're proof that evolution can go in reverse.",
+  "You're not stupid; you just have bad luck thinking.",
+  "You're the reason shampoo bottles have instructions.",
+  "You're like a software update — always popping up at the worst time.",
+  "You're the human version of a typo.",
+  "You're like a broken pencil — pointless.",
+  "You're not lazy, you're just on energy-saving mode permanently.",
+  "You're like a traffic jam — nobody wants you, but you're always there.",
+  "You're the reason autocorrect gives up.",
+  "You're like Wi-Fi in a basement — weak and unreliable.",
+  "You're the kind of person who claps when the plane lands.",
+  "You're like a selfie stick — unnecessary and annoying.",
+  "You're the reason they put directions on frozen pizza.",
+  "You're like a pop-up ad — nobody asked for you.",
+  "You're the human equivalent of buffering.",
+  "You're like a mosquito — small, annoying, and hard to get rid of.",
+  "You're the reason mute buttons exist.",
+  "You're like a Monday morning — nobody looks forward to you.",
+  "You're the kind of person who'd trip over a wireless connection.",
+  "You're like a low battery warning — always interrupting something good.",
+  "You're the reason the internet has a block button.",
+  "You're like a group project — doing nothing but still showing up.",
+  "You're like Ctrl+Z — I wish I could undo you.",
+  "You're the human version of a 404 error.",
+  "You're like a printer — slow, loud, and always out of ink.",
+  "You're the kind of person who'd lose a staring contest with a wall.",
+  "You're like a phone with 1% battery — stressful and unreliable.",
+  "You're the reason spellcheck cries at night.",
+  "You're like a keyboard with no spacebar — impossible to deal with.",
+  "You're the kind of person who'd bring a spoon to a knife fight.",
+  "You're like a pop quiz — unwanted and confusing.",
+  "You're the human version of a software bug.",
+  "You're like a loading screen — always making people wait.",
+  "You're the reason sarcasm was invented.",
+  "You're like a vending machine that eats coins — frustrating and useless.",
+  "You're the kind of person who'd get lost in a one-room apartment.",
+  "You're like a phone in airplane mode — no connection, no purpose.",
+  "You're the reason people double-check their mute button.",
+  "You're like a slow internet connection — testing everyone's patience.",
+  "You're the kind of person who'd fail a personality test.",
+  "You're like a forgotten password — annoying and hard to recover.",
+  "You're the human version of spam mail.",
+  "You're like a GPS with no signal — always lost.",
+  "You're the kind of person who'd argue with a mirror.",
+  "You're like a pop song — catchy but irritating.",
+  "You're the reason people say 'bless your heart' sarcastically.",
+  "You're like a broken remote — all buttons, no function.",
+  "You're the kind of person who'd bring a tent to a sleepover.",
+  "You're like a phone with no apps — boring and outdated.",
+  "You're the reason people read the fine print.",
+  "You're like a password hint that says 'password' — useless.",
+  "You're the kind of person who'd get fired from a volunteer job.",
+  "You're like a playlist with only ads.",
+  "You're the human version of a buffering wheel.",
+  "You're like a screenshot of a black screen — pointless.",
+  "You're the kind of person who'd lose a game of solitaire.",
+  "You're like a pencil with no lead — can't even make a point.",
+  "You're the reason people invented 'Do Not Disturb'.",
+  "You're like a browser with 100 tabs open — chaotic and confused.",
+  "You're the kind of person who'd bring a fork to drink soup.",
+  "You're like a pop-up blocker — always in the way.",
+  "You're the human version of a missed call.",
+  "You're like a playlist with no music — just noise.",
+  "You're the kind of person who'd get rejected by autocorrect.",
+  "You're like a captcha test — unnecessarily difficult.",
+  "You're the reason people use anonymous mode.",
+  "You're like a group chat with no mute option.",
+  "You're the kind of person who'd lose a race against a snail.",
+  "You're like a phone with no screen — can't even fake usefulness.",
+  "You're the reason people invented airplane mode.",
+  "You're like a meme from 2010 — outdated and overused.",
+  "You're the kind of person who'd get ghosted by a chatbot.",
+  "You're like a playlist with only sad songs — draining.",
+  "You're the human version of a dropped call.",
+  "You're like a selfie taken with the back camera — shocking.",
+  "You're the kind of person who'd get blocked by a bot.",
+  "You're like a voice note that never ends — unbearable.",
+  "You're the reason people invented 'unsubscribe'.",
+  "You're like a comment section — full of nonsense.",
+  "You're the kind of person who'd lose a staring contest with a goldfish.",
+  "You're like a phone with no contacts — lonely and useless.",
+  "You're the reason people invented 'skip intro'.",
+  "You're like a playlist with only commercials.",
+  "You're the kind of person who'd get kicked out of a silent disco.",
+  "You're like a broken charger — all promise, no power.",
+  "You're the human version of a typo in a tattoo.",
+  "You're like a smart fridge that can't keep anything cool.",
+  "You're the kind of person who'd get lost in Google Maps.",
+  "You're like a voice assistant that never listens.",
+  "You're the reason people invented 'clear history'.",
+  "You're like a password that's '1234' — predictable.",
+  "You're the kind of person who'd get banned from Minesweeper.",
+  "You're like a playlist with only elevator music.",
+  "You're the human version of a printer jam.",
+  "You're like a pop-up that says 'Are you sure?' — always doubted.",
+  "You're the kind of person who'd lose a fight with autocorrect.",
+  "You're like a phone with no ringtone — silent and ignored.",
+  "You're the reason people invented 'block user'.",
+  "You're like a smart watch that can't tell time.",
+  "You're the kind of person who'd get roasted by a toaster.",
+  "You're like a screenshot of a blank page — nothing to see.",
+  "You're the human version of a forgotten password.",
+  "You're like a playlist stuck on repeat — same nonsense, every time."
+];
+
+
+    let userName = "";
+
+    function submitName() {
+      userName = document.getElementById("username").value.trim();
+      if (userName === "") return;
+
+      const chatbox = document.getElementById("chatbox");
+      chatbox.innerHTML += `<div class="message babbli">Babbli: Nice to meet you, ${userName} 💕</div>`;
+      document.getElementById("loveSection").style.display = "block";
+    }
+
+    function submitLove() {
+      const chatbox = document.getElementById("chatbox");
+      const message = document.getElementById("loveMessage").value.trim();
+      if (message === "") return;
+
+      chatbox.innerHTML += `<div class="message user">${userName}: ${message}</div>`;
+
+      const randomRoast = roasts[Math.floor(Math.random() * roasts.length)];
+      chatbox.innerHTML += `<div class="message babbli">Babbli: ${randomRoast}</div>`;
+    }
+  </script>
+</body>
+</html>
