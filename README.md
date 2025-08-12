@@ -1,2 +1,2 @@
 # I-Love-You-Zimmy
-English Zimmy Ai
+English/Marathi Zimmy Ai
